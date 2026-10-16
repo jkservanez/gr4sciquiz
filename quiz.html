@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Quiz Challenge with Timer</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --correct: #16a34a;
+            --correct-bg: #dcfce7;
+            --incorrect: #dc2626;
+            --incorrect-bg: #fee2e2;
+            --timer-warn: #eab308;
+            --timer-danger: #dc2626;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --correct: #4ade80;
+            --correct-bg: #064e3b;
+            --incorrect: #f87171;
+            --incorrect-bg: #7f1d1d;
+            --timer-warn: #facc15;
+            --timer-danger: #f87171;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .screen {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .start-screen h2 {
+            margin-bottom: 15px;
+        }
+
+        .start-screen p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .info-list {
+            text-align: left;
+            max-width: 450px;
+            margin: 0 auto 25px auto;
+            background: var(--bg);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .info-list li {
+            margin-bottom: 8px;
+        }
+
+        .settings-panel {
+            max-width: 450px;
+            margin: 0 auto 25px auto;
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .settings-panel h3 {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .setting-group {
+            margin-bottom: 15px;
+        }
+
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-badge.warn {
+            color: var(--timer-warn);
+            border-color: var(--timer-warn);
+        }
+
+        .timer-badge.danger {
+            color: var(--timer-danger);
+            border-color: var(--timer-danger);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .round-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .badge-easy { background: #dbeafe; color: #1e40af; }
+        .badge-medium { background: #fef3c7; color: #92400e; }
+        .badge-hard { background: #fee2e2; color: #991b1b; }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .text-input-container {
+            margin-bottom: 20px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px auto;
+        }
+
+        .score-num {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .time-spent-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .breakdown-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .breakdown-card h4 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .breakdown-card p {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .review-section {
+            margin-top: 30px;
+        }
+
+        .review-section h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .review-item {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .review-item.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct);
+        }
+
+        .review-item.incorrect {
+            background-color: var(--incorrect-bg);
+            border-color: var(--incorrect);
+        }
+
+        .review-q {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .review-ans {
+            font-size: 0.9rem;
+        }
+
+        .review-explanation {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-left: 3px solid var(--primary);
+            background: var(--bg);
+            border-radius: 6px;
+            line-height: 1.5;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Science Quiz Challenge</h1>
+        <button class="theme-btn" onclick="toggleTheme()">Theme</button>
+    </header>
+
+    <!-- START SCREEN -->
+    <div id="startScreen" class="screen start-screen">
+        <h2>Ready to Test Your Science Knowledge?</h2>
+        <p>Configure your quiz mode and timer preferences below:</p>
+
+        <!-- CONFIGURATION PANEL -->
+        <div class="settings-panel">
+            <h3>Quiz Settings</h3>
+
+            <div class="setting-group">
+                <label for="quizTypeSelect">Quiz Mode / Format:</label>
+                <select id="quizTypeSelect" class="select-input">
+                    <option value="both" selected>MCQ + Fill in the Blanks (50 Questions)</option>
+                    <option value="mcq">MCQ Only (40 Questions)</option>
+                    <option value="fitb">Fill in the Blanks Only (10 Questions)</option>
+                </select>
+            </div>
+            
+            <div class="setting-group">
+                <label for="timerModeSelect">Timer Mode:</label>
+                <select id="timerModeSelect" class="select-input" onchange="toggleTimerInputs()">
+                    <option value="none">No Timer (Practice at your own pace)</option>
+                    <option value="overall" selected>Overall Quiz Timer (Single clock)</option>
+                    <option value="perQuestion">Per-Question Timer (Clock resets every question)</option>
+                </select>
+            </div>
+
+            <div id="overallTimerGroup" class="setting-group">
+                <label for="overallTimeSelect">Total Quiz Duration:</label>
+                <select id="overallTimeSelect" class="select-input">
+                    <option value="1200">20 Minutes (Standard)</option>
+                    <option value="1800">30 Minutes (Relaxed)</option>
+                    <option value="900">15 Minutes (Fast Pace)</option>
+                    <option value="600">10 Minutes (Speed Challenge)</option>
+                </select>
+            </div>
+
+            <div id="perQuestionTimerGroup" class="setting-group hidden">
+                <label for="perQuestionTimeSelect">Time Per Question:</label>
+                <select id="perQuestionTimeSelect" class="select-input">
+                    <option value="30">30 Seconds</option>
+                    <option value="45" selected>45 Seconds</option>
+                    <option value="60">60 Seconds</option>
+                    <option value="15">15 Seconds (Blitz)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn" onclick="startQuiz()">Start Quiz Now</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quizScreen" class="screen hidden">
+        <div class="quiz-progress">
+            <span id="progressText">Question 1</span>
+            <div id="timerContainer" class="timer-badge">
+                ⏱️ <span id="timerText">00:00</span>
+            </div>
+            <span id="roundBadge" class="round-badge badge-easy">Easy Round</span>
+        </div>
+        
+        <div class="progress-bar-bg">
+            <div id="progressBar" class="progress-bar-fill"></div>
+        </div>
+
+        <div id="questionText" class="question-text">Loading question...</div>
+
+        <!-- Multiple Choice Options -->
+        <div id="mcContainer" class="options-grid"></div>
+
+        <!-- Fill-in-the-blank Input -->
+        <div id="fitbContainer" class="text-input-container hidden">
+            <input type="text" id="fitbInput" class="text-input" placeholder="Type your answer here..." autocomplete="off">
+        </div>
+
+        <div class="quiz-footer">
+            <button id="nextBtn" class="btn" onclick="handleNext()">Next Question</button>
+        </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="resultsScreen" class="screen hidden">
+        <div class="results-header">
+            <h2>Quiz Complete!</h2>
+            <div class="score-circle">
+                <span id="finalScore" class="score-num">0/0</span>
+                <span id="finalPercent" class="score-label">0%</span>
+            </div>
+            <p id="scoreMessage">Great effort!</p>
+            <p id="timeSpentText" class="time-spent-text"></p>
+        </div>
+
+        <div id="breakdownGrid" class="breakdown-grid"></div>
+
+        <div class="actions">
+            <button class="btn" onclick="returnToStart()">Configure / Retake Quiz</button>
+        </div>
+
+        <div class="review-section">
+            <h3>Question Breakdown</h3>
+            <div id="reviewContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let timerInterval = null;
+let timerMode = 'overall';
+let timeRemaining = 0;
+let perQuestionTimeLimit = 45;
+let currentQuizQuestions = [];
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let scores = { easy: 0, medium: 0, hard: 0 };
+let timeSpentTotal = 0;
+
+function toggleTimerInputs() {
+    const mode = document.getElementById('timerModeSelect').value;
+    const overallGrp = document.getElementById('overallTimerGroup');
+    const perQGrp = document.getElementById('perQuestionTimerGroup');
+
+    if (mode === 'none') {
+        overallGrp.classList.add('hidden');
+        perQGrp.classList.add('hidden');
+    } else if (mode === 'overall') {
+        overallGrp.classList.remove('hidden');
+        perQGrp.classList.add('hidden');
+    } else if (mode === 'perQuestion') {
+        overallGrp.classList.add('hidden');
+        perQGrp.classList.remove('hidden');
+    }
+}
+
+const questionBank = {
+  "easy": [
+    {
+      "q": "What characteristic do all living things have?",
+      "a": "They need energy to live.",
+      "options": ["They fly and swim.", "They need energy to live.", "They remain unchanged over time.", "They do not react."],
+      "exp": "All living organisms require energy to carry out bodily functions and sustain life."
+    },
+    {
+      "q": "What process allows living things to produce offspring?",
+      "a": "Reproduction",
+      "options": ["Respiration", "Photosynthesis", "Reproduction", "Digestion"],
+      "exp": "Reproduction is the biological process by which new individual organisms are produced."
+    },
+    {
+      "q": "What do living things need from their surroundings?",
+      "a": "Food, water, air, and suitable shelter or habitat",
+      "options": ["Food, water, air, and suitable shelter or habitat", "Only soil and sunlight", "Plastic and minerals", "Fertilizer only"],
+      "exp": "Living things rely on essential resources from their environment to grow and survive."
+    },
+    {
+      "q": "Which can grow and reproduce: a rock or a plant?",
+      "a": "Plant",
+      "options": ["Rock", "Plant", "Both rock and plant", "Neither"],
+      "exp": "Plants are living organisms capable of growth and reproduction."
+    },
+    {
+      "q": "What do we call anything that has life?",
+      "a": "Living thing",
+      "options": ["Living thing", "Nonliving thing", "Mineral", "Fossil"],
+      "exp": "Any biological entity exhibiting characteristics of life is a living thing."
+    },
+    {
+      "q": "What do we call something that does not have life?",
+      "a": "Nonliving thing",
+      "options": ["Living thing", "Nonliving thing", "Organism", "Species"],
+      "exp": "Matter without life processes is classified as nonliving."
+    },
+    {
+      "q": "A seed may appear inactive. Why is it still considered living?",
+      "a": "It contains a living embryo that can grow under suitable conditions.",
+      "options": ["It moves on its own.", "It contains a living embryo that can grow under suitable conditions.", "It produces its own heat.", "It has a heart."],
+      "exp": "The seed houses a plant embryo in a dormant state until conditions trigger germination."
+    },
+    {
+      "q": "Which characteristic allows organisms to respond to changes around them?",
+      "a": "Response to stimuli",
+      "options": ["Response to stimuli", "Photosynthesis", "Decomposition", "Evaporation"],
+      "exp": "Organisms react to environmental changes (stimuli) like light, temperature, or touch."
+    },
+    {
+      "q": "Why does a plant bend toward sunlight?",
+      "a": "It responds to light.",
+      "options": ["It responds to light.", "It responds to gravity.", "It responds to soil texture.", "It responds to wind."],
+      "exp": "Phototropism causes plants to grow toward solar light sources."
+    },
+    {
+      "q": "Why do humans sweat when they become very hot?",
+      "a": "The body responds to heat and helps regulate temperature.",
+      "options": ["To store water inside skin.", "The body responds to heat and helps regulate temperature.", "To block oxygen.", "To change skin color."],
+      "exp": "Sweating lowers body temperature through evaporative cooling."
+    },
+    {
+      "q": "Which plant part anchors the plant in the soil?",
+      "a": "Roots",
+      "options": ["Leaves", "Stem", "Roots", "Flower"],
+      "exp": "Roots secure plants into soil while absorbing water and nutrients."
+    },
+    {
+      "q": "Which plant part supports leaves, flowers, and fruits?",
+      "a": "Stem",
+      "options": ["Roots", "Stem", "Seeds", "Petals"],
+      "exp": "The stem supports above-ground structures and transports fluids."
+    },
+    {
+      "q": "Which plant part captures sunlight for photosynthesis?",
+      "a": "Leaves",
+      "options": ["Roots", "Bark", "Leaves", "Seeds"],
+      "exp": "Leaves possess broad surface areas optimized for absorbing light."
+    },
+    {
+      "q": "What green substance in leaves absorbs light energy?",
+      "a": "Chlorophyll",
+      "options": ["Stomata", "Chlorophyll", "Xylem", "Glucose"],
+      "exp": "Chlorophyll pigment captures solar radiation during photosynthesis."
+    },
+    {
+      "q": "What is the main purpose of photosynthesis?",
+      "a": "To make food for the plant.",
+      "options": ["To absorb carbon dioxide from water.", "To make food for the plant.", "To break down soil nutrients.", "To store excess oxygen."],
+      "exp": "Photosynthesis produces glucose to nourish the plant."
+    },
+    {
+      "q": "What three things are important for photosynthesis?",
+      "a": "Sunlight, water, and carbon dioxide",
+      "options": ["Sunlight, water, and carbon dioxide", "Soil, fertilizer, and oxygen", "Sugar, heat, and nitrogen", "Oxygen, shade, and wind"],
+      "exp": "Plants use light, water, and carbon dioxide as key ingredients to form glucose."
+    },
+    {
+      "q": "What gas is released by plants during photosynthesis?",
+      "a": "Oxygen",
+      "options": ["Carbon dioxide", "Nitrogen", "Oxygen", "Hydrogen"],
+      "exp": "Oxygen gas is given off as a byproduct when water molecules split."
+    },
+    {
+      "q": "What is the reproductive part of many flowering plants?",
+      "a": "Flower",
+      "options": ["Flower", "Root hair", "Stem", "Leaf blade"],
+      "exp": "Flowers contain organs required for plant sexual reproduction."
+    },
+    {
+      "q": "What protects a flower before it opens?",
+      "a": "Sepals",
+      "options": ["Petals", "Sepals", "Stigma", "Anther"],
+      "exp": "Sepals enclose and protect developing flower buds."
+    },
+    {
+      "q": "What attracts many pollinators to flowers?",
+      "a": "Color, scent, and nectar",
+      "options": ["Thorny stems", "Color, scent, and nectar", "Green leaves", "Dry seeds"],
+      "exp": "Vibrant colors, sweet fragrances, and nectar entice pollinators."
+    }
+  ],
+  "medium": [
+    {
+      "q": "Which statement is true regarding the behavior of particles when a substance is heated?",
+      "a": "They generally move faster",
+      "options": ["They generally move faster", "They generally move slower", "They stop moving completely", "Their movement speed remains unchanged"],
+      "exp": "Adding thermal energy increases the average kinetic energy and velocity of subatomic particles."
+    },
+    {
+      "q": "Which statement is true about why ice floats on liquid water?",
+      "a": "Ice is less dense than liquid water",
+      "options": ["Ice is less dense than liquid water", "Liquid water is less dense than ice", "Ice and liquid water have the exact same density", "Air pressure holds ice on top of water"],
+      "exp": "Water expands upon freezing, forming a crystalline structure that makes ice less dense than liquid water."
+    },
+    {
+      "q": "Which statement is true regarding sound transmission in outer space?",
+      "a": "Space is a vacuum with no matter or medium to carry sound waves",
+      "options": ["Space is a vacuum with no matter or medium to carry sound waves", "Sound waves travel too fast in space to be heard", "Space is too cold for sound energy to form", "Gravity in space absorbs all sound vibrations"],
+      "exp": "Sound is a mechanical wave requiring a physical medium (solid, liquid, or gas) to propagate."
+    },
+    {
+      "q": "Which statement is true regarding air density and temperature movement?",
+      "a": "Warm air is less dense than cool air",
+      "options": ["Warm air is less dense than cool air", "Warm air is denser than cool air", "Cool air weighs less than warm air", "Temperature does not affect air density"],
+      "exp": "Warm air molecules expand and spread apart, lowering its density and causing warm air to rise above cooler air."
+    },
+    {
+      "q": "Which statement is true about how we see non-luminous objects?",
+      "a": "Light reflects off the object into the eyes",
+      "options": ["Light reflects off the object into the eyes", "Non-luminous objects absorb light into the brain", "Human eyes produce light rays", "Sound waves bounce off objects to create sight"],
+      "exp": "Non-luminous objects reflect light from primary sources into our eyes to become visible."
+    },
+    {
+      "q": "Which statement is true about the relationship between color and heat absorption?",
+      "a": "Dark surfaces generally absorb more radiant energy than light surfaces",
+      "options": ["Dark surfaces generally absorb more radiant energy than light surfaces", "Light colors absorb more radiant energy than dark colors", "Dark colors reflect all sunlight away", "Color has no effect on radiant energy absorption"],
+      "exp": "Dark pigments absorb broader light spectra, converting absorbed radiation into thermal energy."
+    },
+    {
+      "q": "Which statement is true about an object moving on a level surface without friction?",
+      "a": "The object will continue moving indefinitely",
+      "options": ["The object will continue moving indefinitely", "The object will come to an immediate stop", "The object will slow down and reverse", "Gravity will force the object upward"],
+      "exp": "Newton's First Law states that without opposing forces like friction, an object in motion stays in motion."
+    },
+    {
+      "q": "Which statement is true regarding the fundamental rule of magnetic poles?",
+      "a": "Like poles repel each other, and opposite poles attract",
+      "options": ["Like poles repel each other, and opposite poles attract", "Like poles attract each other, and opposite poles repel", "All magnetic poles attract each other", "Magnetic force requires physical contact"],
+      "exp": "Magnetic field alignments cause like poles (N-N / S-S) to push apart and opposite poles (N-S) to draw together."
+    },
+    {
+      "q": "What process changes liquid water into water vapor?",
+      "a": "Evaporation",
+      "options": ["Evaporation", "Condensation", "Freezing", "Melting"],
+      "exp": "Evaporation occurs when liquid water absorbs thermal energy and converts into gas."
+    },
+    {
+      "q": "What process changes water vapor into liquid water?",
+      "a": "Condensation",
+      "options": ["Condensation", "Evaporation", "Freezing", "Sublimation"],
+      "exp": "Condensation happens when water vapor loses heat energy and condenses into liquid droplets."
+    }
+  ],
+  "hard": [
+    {
+      "q": "What is the process by which cells produce new cells for growth and repair?",
+      "a": ["Cell division", "Mitosis"],
+      "exp": "Cell division (mitosis) creates duplicate cells to replace damaged tissue and enable body growth."
+    },
+    {
+      "q": "What specialized tissue transports water from roots toward the leaves?",
+      "a": ["Xylem", "Xylem tissue"],
+      "exp": "Xylem vessels distribute absorbed soil moisture and dissolved minerals upward."
+    },
+    {
+      "q": "What specialized tissue transports food made by the leaves?",
+      "a": ["Phloem", "Phloem tissue"],
+      "exp": "Phloem carries manufactured sugars from photosynthetic leaves to non-photosynthetic organs."
+    },
+    {
+      "q": "What tiny openings on leaves allow gases to enter and leave?",
+      "a": ["Stomata", "Stoma"],
+      "exp": "Stomata are microscopic guard-cell-controlled pores regulating carbon dioxide, oxygen, and moisture."
+    },
+    {
+      "q": "What raw materials are needed for photosynthesis?",
+      "a": ["Water and carbon dioxide", "Carbon dioxide and water", "CO2 and water"],
+      "exp": "Water pulled through roots and carbon dioxide absorbed through stomata serve as reactants."
+    },
+    {
+      "q": "What blood vessels carry blood away from the heart?",
+      "a": ["Arteries", "Artery"],
+      "exp": "Arteries carry high-pressure oxygenated blood away from the heart toward tissue capillary beds."
+    },
+    {
+      "q": "What blood vessels carry blood toward the heart?",
+      "a": ["Veins", "Vein"],
+      "exp": "Veins deliver deoxygenated blood back to heart chambers via low-pressure valve systems."
+    },
+    {
+      "q": "What tiny blood vessels connect arteries and veins?",
+      "a": ["Capillaries", "Capillary"],
+      "exp": "Capillaries are single-cell-thick vessels facilitating nutrient and gas diffusion."
+    },
+    {
+      "q": "What muscle helps the lungs expand and contract during breathing?",
+      "a": ["Diaphragm", "Diaphragm muscle"],
+      "exp": "The diaphragm moves down during inhalation to decrease thoracic pressure and pull air inward."
+    },
+    {
+      "q": "What process moves soil and rock particles from one place to another?",
+      "a": ["Erosion", "Soil erosion"],
+      "exp": "Erosion is the transport of physical sediments by wind, moving water, or ice movement."
+    }
+  ]
+};
+
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function getRandomQuestions(category, count) {
+    const coverageKey = 'quizCoverage_' + category;
+    let deck = [];
+
+    try {
+        deck = JSON.parse(localStorage.getItem(coverageKey) || '[]');
+    } catch (e) {
+        deck = [];
+    }
+
+    const maxIndex = questionBank[category].length - 1;
+
+    deck = [...new Set(
+        deck.filter(i => Number.isInteger(i) && i >= 0 && i <= maxIndex)
+    )];
+
+    const used = new Set(deck);
+    const available = questionBank[category]
+        .map((_, i) => i)
+        .filter(i => !used.has(i));
+
+    if (available.length < count) {
+        deck = shuffleArray(questionBank[category].map((_, i) => i));
+    } else if (deck.length < count) {
+        deck = [...deck, ...shuffleArray(available)];
+    }
+
+    const selectedIndexes = deck.slice(0, count);
+    deck = deck.slice(count);
+    localStorage.setItem(coverageKey, JSON.stringify(deck));
+
+    return selectedIndexes.map(i => {
+        const q = questionBank[category][i];
+        if (q.options) {
+            return {
+                ...q,
+                options: shuffleArray(q.options),
+                category
+            };
+        }
+        return { ...q, category };
+    });
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function startQuiz() {
+    timerMode = document.getElementById('timerModeSelect').value;
+    const quizType = document.getElementById('quizTypeSelect').value;
+    
+    let easyQs = [];
+    let mediumQs = [];
+    let hardQs = [];
+
+    if (quizType === 'both') {
+        easyQs = getRandomQuestions('easy', 20);
+        mediumQs = getRandomQuestions('medium', 20);
+        hardQs = getRandomQuestions('hard', 10);
+    } else if (quizType === 'mcq') {
+        easyQs = getRandomQuestions('easy', 20);
+        mediumQs = getRandomQuestions('medium', 20);
+    } else if (quizType === 'fitb') {
+        hardQs = getRandomQuestions('hard', 10);
+    }
+
+    currentQuizQuestions = [...easyQs, ...mediumQs, ...hardQs];
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    scores = { easy: 0, medium: 0, hard: 0 };
+    timeSpentTotal = 0;
+
+    clearInterval(timerInterval);
+    const timerContainer = document.getElementById('timerContainer');
+    
+    if (timerMode === 'none') {
+        timerContainer.classList.add('hidden');
+    } else {
+        timerContainer.classList.remove('hidden');
+        if (timerMode === 'overall') {
+            timeRemaining = parseInt(document.getElementById('overallTimeSelect').value, 10);
+        } else if (timerMode === 'perQuestion') {
+            perQuestionTimeLimit = parseInt(document.getElementById('perQuestionTimeSelect').value, 10);
+            timeRemaining = perQuestionTimeLimit;
+        }
+    }
+
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('resultsScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+
+    showQuestion();
+    startTimer();
+}
+
+function startTimer() {
+    if (timerMode === 'none') return;
+
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        timeSpentTotal++;
+
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+            if (timerMode === 'overall') {
+                clearInterval(timerInterval);
+                autoSubmitRemaining();
+                showResults(true);
+            } else if (timerMode === 'perQuestion') {
+                saveAnswer("", true);
+            }
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const timerText = document.getElementById('timerText');
+    const timerContainer = document.getElementById('timerContainer');
+    
+    timerText.innerText = formatTime(timeRemaining);
+
+    timerContainer.classList.remove('warn', 'danger');
+    if (timerMode === 'overall') {
+        if (timeRemaining <= 60) timerContainer.classList.add('danger');
+        else if (timeRemaining <= 180) timerContainer.classList.add('warn');
+    } else if (timerMode === 'perQuestion') {
+        if (timeRemaining <= 5) timerContainer.classList.add('danger');
+        else if (timeRemaining <= 10) timerContainer.classList.add('warn');
+    }
+}
+
+function showQuestion() {
+    const q = currentQuizQuestions[currentQuestionIndex];
+    const totalQs = currentQuizQuestions.length;
+
+    if (timerMode === 'perQuestion') {
+        timeRemaining = perQuestionTimeLimit;
+        updateTimerDisplay();
+    }
+    
+    document.getElementById('progressText').innerText = `Question ${currentQuestionIndex + 1} of ${totalQs}`;
+    document.getElementById('progressBar').style.width = `${((currentQuestionIndex + 1) / totalQs) * 100}%`;
+
+    const badge = document.getElementById('roundBadge');
+    if (q.category === 'easy') {
+        badge.innerText = "Easy Round";
+        badge.className = "round-badge badge-easy";
+    } else if (q.category === 'medium') {
+        badge.innerText = "Medium Round";
+        badge.className = "round-badge badge-medium";
+    } else {
+        badge.innerText = "Hard Round (Fill-in)";
+        badge.className = "round-badge badge-hard";
+    }
+
+    document.getElementById('questionText').innerText = q.q;
+
+    const mcContainer = document.getElementById('mcContainer');
+    const fitbContainer = document.getElementById('fitbContainer');
+    const fitbInput = document.getElementById('fitbInput');
+
+    if (q.category === 'easy' || q.category === 'medium') {
+        mcContainer.classList.remove('hidden');
+        fitbContainer.classList.add('hidden');
+        mcContainer.innerHTML = '';
+
+        q.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(opt);
+            mcContainer.appendChild(btn);
+        });
+    } else {
+        mcContainer.classList.add('hidden');
+        fitbContainer.classList.remove('hidden');
+        fitbInput.value = '';
+        fitbInput.focus();
+    }
+}
+
+function selectOption(selectedOpt) {
+    saveAnswer(selectedOpt);
+}
+
+function handleNext() {
+    const q = currentQuizQuestions[currentQuestionIndex];
+    if (q.category === 'hard') {
+        const inputVal = document.getElementById('fitbInput').value.trim();
+        saveAnswer(inputVal);
+    }
+}
+
+function saveAnswer(answer, isTimeOut = false) {
+    const q = currentQuizQuestions[currentQuestionIndex];
+    let isCorrect = false;
+
+    if (!isTimeOut && answer !== "") {
+        const normalize = (str) => String(str || "").toLowerCase().replace(/[^a-z0-9]/g, "").trim();
+        const validAnswers = Array.isArray(q.a) ? q.a : [q.a];
+        isCorrect = validAnswers.some(target => normalize(answer) === normalize(target));
+    }
+
+    if (isCorrect) {
+        scores[q.category]++;
+    }
+
+    userAnswers.push({
+        question: q.q,
+        userAns: isTimeOut ? "⏰ (Time Expired)" : (answer || "(No Answer)"),
+        correctAns: Array.isArray(q.a) ? q.a[0] : q.a,
+        explanation: q.exp || "",
+        isCorrect: isCorrect,
+        category: q.category
+    });
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < currentQuizQuestions.length) {
+        showQuestion();
+    } else {
+        clearInterval(timerInterval);
+        showResults();
+    }
+}
+
+function autoSubmitRemaining() {
+    while (currentQuestionIndex < currentQuizQuestions.length) {
+        const q = currentQuizQuestions[currentQuestionIndex];
+        userAnswers.push({
+            question: q.q,
+            userAns: "⏰ (Time Expired)",
+            correctAns: Array.isArray(q.a) ? q.a[0] : q.a,
+            explanation: q.exp || "",
+            isCorrect: false,
+            category: q.category
+        });
+        currentQuestionIndex++;
+    }
+}
+
+function showResults(timeOutOccurred = false) {
+    clearInterval(timerInterval);
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('resultsScreen').classList.remove('hidden');
+
+    const totalQuestions = currentQuizQuestions.length;
+    const totalCorrect = scores.easy + scores.medium + scores.hard;
+    const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+
+    document.getElementById('finalScore').innerText = `${totalCorrect}/${totalQuestions}`;
+    document.getElementById('finalPercent').innerText = `${percentage}%`;
+
+    const breakdownGrid = document.getElementById('breakdownGrid');
+    breakdownGrid.innerHTML = '';
+
+    const quizType = document.getElementById('quizTypeSelect').value;
+    if (quizType === 'both' || quizType === 'mcq') {
+        breakdownGrid.innerHTML += `
+            <div class="breakdown-card">
+                <h4>Easy</h4>
+                <p>${scores.easy}/20</p>
+            </div>
+            <div class="breakdown-card">
+                <h4>Medium</h4>
+                <p>${scores.medium}/20</p>
+            </div>
+        `;
+    }
+    if (quizType === 'both' || quizType === 'fitb') {
+        breakdownGrid.innerHTML += `
+            <div class="breakdown-card">
+                <h4>Hard</h4>
+                <p>${scores.hard}/10</p>
+            </div>
+        `;
+    }
+
+    const msg = document.getElementById('scoreMessage');
+    if (timeOutOccurred) {
+        msg.innerText = "⏳ Time's Up! Here is how you scored before time ran out:";
+    } else if (percentage >= 90) msg.innerText = "Outstanding performance! Mastery achieved!";
+    else if (percentage >= 75) msg.innerText = "Great job! Strong science knowledge!";
+    else if (percentage >= 50) msg.innerText = "Good effort! Keep reviewing to improve!";
+    else msg.innerText = "Needs practice. Try reviewing the concepts again!";
+
+    const timeSpentText = document.getElementById('timeSpentText');
+    if (timerMode !== 'none') {
+        timeSpentText.innerText = `Total Time Elapsed: ${formatTime(timeSpentTotal)}`;
+    } else {
+        timeSpentText.innerText = "";
+    }
+
+    const reviewContainer = document.getElementById('reviewContainer');
+    reviewContainer.innerHTML = '';
+
+    userAnswers.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = `review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+        div.innerHTML = `
+            <div class="review-q">${idx + 1}. ${item.question}</div>
+            <div class="review-ans">
+                <strong>Your Answer:</strong> ${item.userAns} <br>
+                ${!item.isCorrect ? `<strong>Correct Answer:</strong> ${item.correctAns}<br>` : ''}
+                <div class="review-explanation"><strong>Why:</strong> ${item.explanation}</div>
+            </div>
+        `;
+        reviewContainer.appendChild(div);
+    });
+}
+
+function returnToStart() {
+    clearInterval(timerInterval);
+    document.getElementById('resultsScreen').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+}
+
+function toggleTheme() {
+    const currentTheme = document.body.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.body.removeAttribute('data-theme');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+}
+
+document.getElementById('fitbInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        handleNext();
+    }
+});
+
+// Ensure controls are synced on load
+toggleTimerInputs();
+</script>
+
+</body>
+</html>

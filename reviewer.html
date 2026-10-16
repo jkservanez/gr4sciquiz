@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 4 ASMEPPS Science Reviewer</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent-green: #059669;
+            --accent-green-bg: #ecfdf5;
+            --accent-blue-bg: #eff6ff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --primary: #60a5fa;
+            --primary-light: #93c5fd;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent-green: #34d399;
+            --accent-green-bg: #064e3b;
+            --accent-blue-bg: #1e3a8a;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .controls {
+            position: sticky;
+            top: 15px;
+            z-index: 100;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: var(--bg);
+            color: var(--text-main);
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-toggle {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .part-header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 30px 0 15px 0;
+            font-size: 1.25rem;
+        }
+
+        .qa-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .q-number {
+            font-weight: 700;
+            color: var(--primary-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .answer {
+            background-color: var(--accent-green-bg);
+            color: var(--accent-green);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .explanation {
+            background-color: var(--accent-blue-bg);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--primary-light);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .controls { flex-direction: column; align-items: stretch; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Grade 4 - ASMEPPS Science Reviewer</h1>
+        <div class="subtitle">221 Direct Questions & Answers Reviewer</div>
+    </header>
+
+    <div class="controls">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search keywords..." onkeyup="filterCards()">
+        <button class="btn btn-toggle" onclick="toggleAnswers()">Toggle Answers</button>
+        <button class="btn btn-toggle" onclick="toggleExplanations()">Toggle Explanations</button>
+        <button class="btn btn-toggle" onclick="toggleTheme()">Theme</button>
+    </div>
+
+    <div id="reviewerContent"></div>
+</div>
+
+<script>
+const qaData = [
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What characteristic do all living things have?",
+        "a": "They need energy to live.",
+        "exp": "All living organisms require energy to sustain life processes, grow, and reproduce."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What process allows living things to produce offspring?",
+        "a": "Reproduction",
+        "exp": "Reproduction is the biological process by which new individual organisms are produced from their parents."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What do living things need from their surroundings?",
+        "a": "Food, water, air, and suitable shelter or habitat",
+        "exp": "Living things rely on basic environmental resources to provide energy, maintain cellular function, and stay protected."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Which can grow and reproduce: a rock or a plant?",
+        "a": "Plant",
+        "exp": "Plants are living organisms capable of cellular growth and reproduction, unlike non-living rocks."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What do we call anything that has life?",
+        "a": "Living thing",
+        "exp": "Organisms that display life functions like growth, metabolism, and response to stimuli are called living things."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What do we call something that does not have life?",
+        "a": "Nonliving thing",
+        "exp": "Nonliving things lack biological functions and do not grow, reproduce, or require nutrition."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "A seed may appear inactive. Why is it still considered living?",
+        "a": "It contains a living embryo that can grow under suitable conditions.",
+        "exp": "Seeds contain dormant plant embryos that initiate growth once exposed to moisture, heat, and air."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Which characteristic allows organisms to respond to changes around them?",
+        "a": "Response to stimuli",
+        "exp": "Living things detect environmental signals (stimuli) and adjust their behavior or physiology accordingly."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Why does a plant bend toward sunlight?",
+        "a": "It responds to light.",
+        "exp": "Plants exhibit phototropism, bending toward light to maximize energy collection for photosynthesis."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Why do humans sweat when they become very hot?",
+        "a": "The body responds to heat and helps regulate temperature.",
+        "exp": "Sweat evaporation absorbs heat energy from the skin surface, lowering overall body temperature."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Which plant part anchors the plant in the soil?",
+        "a": "Roots",
+        "exp": "Roots secure the plant in soil while absorbing essential water and soil minerals."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Which plant part supports leaves, flowers, and fruits?",
+        "a": "Stem",
+        "exp": "The stem acts as the central structural support and pathway for water and food transport throughout the plant."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Which plant part captures sunlight for photosynthesis?",
+        "a": "Leaves",
+        "exp": "Leaves feature wide surfaces rich in chlorophyll designed specifically to absorb light energy."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What green substance in leaves absorbs light energy?",
+        "a": "Chlorophyll",
+        "exp": "Chlorophyll is the photosynthetic pigment that captures sunlight to power the conversion of water and carbon dioxide into sugars."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What is the main purpose of photosynthesis?",
+        "a": "To make food for the plant.",
+        "exp": "Photosynthesis produces glucose, which serves as the primary metabolic energy and food source for plants."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What three things are important for photosynthesis?",
+        "a": "Sunlight, water, and carbon dioxide",
+        "exp": "Sunlight powers the chemical reaction between absorbed soil water and atmospheric carbon dioxide."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What gas is released by plants during photosynthesis?",
+        "a": "Oxygen",
+        "exp": "Oxygen is produced when water molecules split during photosynthetic reactions and is released into the atmosphere."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What is the reproductive part of many flowering plants?",
+        "a": "Flower",
+        "exp": "Flowers house the male and female reproductive organs responsible for seed and fruit production."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What protects a flower before it opens?",
+        "a": "Sepals",
+        "exp": "Sepals are leaf-like outer structures that enclose and protect the developing flower bud."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What attracts many pollinators to flowers?",
+        "a": "Color, scent, and nectar",
+        "exp": "Vibrant petals, sweet fragrances, and sugary nectar attract insects and birds to facilitate pollination."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Where is pollen produced?",
+        "a": "Anther",
+        "exp": "The anther is the terminal, pollen-producing tip of the male stamen structure."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What part receives pollen?",
+        "a": "Stigma",
+        "exp": "The sticky upper surface of the female pistil receives pollen grains during pollination."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What is the transfer of pollen called?",
+        "a": "Pollination",
+        "exp": "Pollination is the movement of pollen grains from an anther to a receptive stigma."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What is an organism that helps transfer pollen called?",
+        "a": "Pollinator",
+        "exp": "Pollinators carry pollen between plant flowers, aiding plant fertilization."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Name one common pollinator.",
+        "a": "Bee",
+        "exp": "Bees collect nectar and pollen, unintentionally transferring pollen grains between flowers as they feed."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What develops from an ovule after fertilization?",
+        "a": "Seed",
+        "exp": "Once fertilised by pollen, the plant ovule matures into a fully formed seed."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "What develops from the ovary of a flower?",
+        "a": "Fruit",
+        "exp": "Following fertilization, the ovary wall swells and matures into a protective, seed-bearing fruit."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Why are fruits important to plants?",
+        "a": "They protect and help disperse seeds.",
+        "exp": "Fruits shield enclosed seeds from damage and encourage seed distribution via animals, wind, or water."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Why do some seeds have wings?",
+        "a": "To help them be carried by wind.",
+        "exp": "Winged seed structures act like parachutes or gliders to float across long distances on wind currents."
+    },
+    {
+        "part": "PART 1: LIVING THINGS, PLANTS, & PHOTOSYNTHESIS",
+        "q": "Why do some fruits have hooks?",
+        "a": "To attach to animals and be carried to other places.",
+        "exp": "Barbed or hooked fruits cling to passing animal fur or feathers, enabling long-distance transport."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What group of animals has feathers?",
+        "a": "Birds",
+        "exp": "Feathers are unique epidermal structures characteristic of avian species, serving flight and insulation."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What group of animals has hair or fur and produces milk for their young?",
+        "a": "Mammals",
+        "exp": "Mammals are warm-blooded vertebrates defined by hair/fur and mammary glands that yield milk."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What group usually has scales and lays eggs on land?",
+        "a": "Reptiles",
+        "exp": "Reptiles are ectothermic vertebrates with waterproof scales that lay soft or hard-shelled eggs on land."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What group of animals usually has moist skin and begins life in water?",
+        "a": "Amphibians",
+        "exp": "Amphibians undergo metamorphosis from water-breathing aquatic larvae to land-dwelling adults."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What group of animals has six legs?",
+        "a": "Insects",
+        "exp": "Insects are arthropods characterized by three main body segments and exactly six jointed legs."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "How many legs does a spider have?",
+        "a": "Eight",
+        "exp": "Spiders belong to the class Arachnida, possessing eight jointed legs rather than six."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What body part helps fish breathe underwater?",
+        "a": "Gills",
+        "exp": "Gills extract dissolved oxygen directly from water passed through the mouth and branchial clefts."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What helps birds fly?",
+        "a": "Wings",
+        "exp": "Aerodynamic wings combined with light, hollow bones allow birds to generate lift and flight."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What adaptation helps ducks swim?",
+        "a": "Webbed feet",
+        "exp": "Skin membranes between toes act like paddles, pushing efficiently against water."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why do polar bears have thick fur?",
+        "a": "To help keep them warm.",
+        "exp": "Dense fur over a thick fat layer insulates polar bears against freezing Arctic conditions."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What is the first stage in the life cycle of a butterfly?",
+        "a": "Egg",
+        "exp": "The butterfly life cycle initiates when an adult female deposits tiny eggs onto host plant leaves."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What comes after the egg stage in a butterfly's life cycle?",
+        "a": "Larva",
+        "exp": "Eggs hatch into larvae (caterpillars), which represent the main feeding and growth phase."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What is the larva of a butterfly called?",
+        "a": "Caterpillar",
+        "exp": "A caterpillar is the worm-like feeding larva of a butterfly or moth."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What stage comes after the caterpillar?",
+        "a": "Pupa",
+        "exp": "Following rapid growth, the caterpillar enters a non-feeding transformation stage called a pupa."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What is the pupa of a butterfly commonly called?",
+        "a": "Chrysalis",
+        "exp": "A chrysalis is the hardened protective shell surrounding a developing butterfly pupa."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What comes after the pupa stage?",
+        "a": "Adult butterfly",
+        "exp": "Emerging from the pupal case, the fully formed adult butterfly expands its wings and flies."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What is a young frog called?",
+        "a": "Tadpole",
+        "exp": "A tadpole is an aquatic, gill-breathing larval frog with a tail and no limbs."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What body part helps a tadpole swim?",
+        "a": "Tail",
+        "exp": "A flexible, finned tail propels tadpoles through aquatic environments."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What develops as a tadpole becomes an adult frog?",
+        "a": "Legs",
+        "exp": "During amphibian metamorphosis, tadpoles develop hind and front legs while reabsorbing their tail."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What process describes major changes in an animal's body during its life cycle?",
+        "a": "Metamorphosis",
+        "exp": "Metamorphosis involves distinct structural developmental transitions between larval and adult forms."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What organ pumps blood throughout the body?",
+        "a": "Heart",
+        "exp": "The heart relies on rhythmic muscle contractions to move oxygenated and deoxygenated blood through vessels."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What organ controls many activities of the body?",
+        "a": "Brain",
+        "exp": "The brain acts as the central processing unit, regulating voluntary actions, involuntary reflexes, and thoughts."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What organs help us breathe?",
+        "a": "Lungs",
+        "exp": "Lungs manage respiration, taking in oxygen gas and discarding carbon dioxide waste."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What organ begins the process of digestion?",
+        "a": "Mouth",
+        "exp": "Digestion begins in the mouth through mechanical chewing and chemical breakdown by salivary enzymes."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What organ stores and mixes food?",
+        "a": "Stomach",
+        "exp": "The stomach churns food while breaking it down chemically using hydrochloric acid and digestive enzymes."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What tube carries food from the mouth to the stomach?",
+        "a": "Esophagus",
+        "exp": "The esophagus uses muscular contractions (peristalsis) to push swallowed food from the throat into the stomach."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Where are most nutrients absorbed?",
+        "a": "Small intestine",
+        "exp": "Microscopic villi lining the small intestine absorb digested nutrients straight into the bloodstream."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What protects the brain?",
+        "a": "Skull",
+        "exp": "The cranial bones form a hard, protective helmet surrounding the delicate brain structure."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What protects the heart and lungs?",
+        "a": "Rib cage",
+        "exp": "The rib cage forms a curved cage of bones that shields vital thoracic organs from external physical impacts."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What gives the body support and helps it move?",
+        "a": "Skeleton",
+        "exp": "The internal skeleton provides structural shape, shields soft tissues, and offers lever points for muscle movement."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which organ is used for seeing?",
+        "a": "Eyes",
+        "exp": "Eyes capture ambient light rays, transforming them into electrical nerve signals sent to the brain."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which organ is used for hearing?",
+        "a": "Ears",
+        "exp": "Ears capture sound wave vibrations traveling through the air, converting them into auditory nervous signals."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which organ detects smells?",
+        "a": "Nose",
+        "exp": "Olfactory receptors inside the nasal cavity detect airborne chemical molecules."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which organ detects taste?",
+        "a": "Tongue",
+        "exp": "Taste buds covering the surface of the tongue detect sweet, salty, sour, bitter, and savory flavors."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which organ detects touch?",
+        "a": "Skin",
+        "exp": "Specialized nerve endings in the skin register pressure, texture, pain, and thermal changes."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which sense helps you know that ice is cold?",
+        "a": "Touch",
+        "exp": "Thermoreceptors embedded within the skin register cold temperatures when contacting ice."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which sense helps you recognize the smell of flowers?",
+        "a": "Smell",
+        "exp": "The sense of smell (olfaction) processes aromatic chemical scents released by flowers."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which sense helps you hear music?",
+        "a": "Hearing",
+        "exp": "The sense of hearing processes rhythmic air vibrations produced by musical instruments or voices."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why can food seem less flavorful when you have a blocked nose?",
+        "a": "Smell helps us experience flavor.",
+        "exp": "Flavor perception combines taste inputs from the tongue with olfactory odor inputs from the nose."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why is it dangerous to touch a very hot object?",
+        "a": "It can damage the skin and cause burns.",
+        "exp": "High thermal heat destroys epidermal skin cells, causing painful tissue burns."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which system breaks down food?",
+        "a": "Digestive system",
+        "exp": "The digestive system reduces complex foods into simple, absorbable nutrient molecules."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which system helps the body take in oxygen?",
+        "a": "Respiratory system",
+        "exp": "The respiratory system moves fresh oxygen into lungs while removing metabolic carbon dioxide waste."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which system transports blood around the body?",
+        "a": "Circulatory system",
+        "exp": "The circulatory system uses the heart and blood vessels to distribute oxygen, nutrients, and hormones."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which system controls body activities and responses?",
+        "a": "Nervous system",
+        "exp": "The nervous system uses electrical impulses along nerves to process data and control responses."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Which system provides support and protection?",
+        "a": "Skeletal system",
+        "exp": "The rigid skeletal framework maintains upright body structure and shields internal organs."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why does your breathing become faster when running?",
+        "a": "Your body needs more oxygen.",
+        "exp": "Active muscles expend energy rapidly during exercise, requiring higher oxygen intake to sustain function."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why does your heartbeat increase during exercise?",
+        "a": "Blood needs to circulate faster to meet the body's increased needs.",
+        "exp": "Increased heart rates pump fresh oxygenated blood to working muscle tissue at an accelerated pace."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "Why do muscles work with bones?",
+        "a": "They work together to produce movement.",
+        "exp": "Muscles contract to pull on attached bones, acting as levers to produce joint movements."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What connects muscles to bones?",
+        "a": "Tendons",
+        "exp": "Tendons are tough, fibrous cords of connective tissue that anchor skeletal muscles securely to bone."
+    },
+    {
+        "part": "PART 2: ANIMALS, LIFE CYCLES, & HUMAN BODY SYSTEMS",
+        "q": "What are the places where bones meet called?",
+        "a": "Joints",
+        "exp": "Joints are structural junctions between two or more bones that allow varying degrees of flexibility."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What are the three common states of matter?",
+        "a": "Solid, liquid, and gas",
+        "exp": "Matter commonly exists as solid, liquid, or gas based on thermal energy and particle arrangement."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which state has a definite shape and volume?",
+        "a": "Solid",
+        "exp": "Tightly packed particles in solids maintain rigid positions, preserving both fixed shape and volume."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which state has a definite volume but takes the shape of its container?",
+        "a": "Liquid",
+        "exp": "Liquid particles flow past each other freely, taking the shape of a container while maintaining fixed volume."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which state spreads out to fill its container?",
+        "a": "Gas",
+        "exp": "Gas particles move independently with high energy, expanding to fill available space entirely."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What happens when ice is heated?",
+        "a": "It melts.",
+        "exp": "Heating supplies thermal energy to solid ice, breaking rigid crystal bonds so it transforms into liquid water."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What happens when water is cooled enough?",
+        "a": "It freezes.",
+        "exp": "Cooling removes thermal energy from liquid water until it solidifies into crystalline ice at 0°C."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What process changes liquid water into water vapor?",
+        "a": "Evaporation",
+        "exp": "Evaporation occurs when liquid water molecules at the surface absorb heat and transition into gas."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What process changes water vapor into liquid water?",
+        "a": "Condensation",
+        "exp": "Condensation happens when gaseous water vapor loses heat energy and condenses into liquid droplets."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a wet shirt dry under the Sun?",
+        "a": "Water evaporates due to heat.",
+        "exp": "Solar radiation supplies heat that accelerates the evaporation of moisture out of wet fabric fibers."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why do water droplets form outside a cold glass?",
+        "a": "Water vapor in the air condenses on the cold surface.",
+        "exp": "Warm atmospheric water vapor loses heat upon contact with the chilly glass exterior, condensing into water drops."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What is a push?",
+        "a": "A force that moves an object away.",
+        "exp": "Pushing applies directional force that propels an object away from the source of force."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What is a pull?",
+        "a": "A force that moves an object toward you.",
+        "exp": "Pulling exerts directional force that draws an object closer to the force creator."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What force pulls objects toward Earth?",
+        "a": "Gravity",
+        "exp": "Gravity is the universal attractive force exerted by planetary mass, pulling objects toward Earth's center."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What force opposes motion between surfaces?",
+        "a": "Friction",
+        "exp": "Friction is the contact force that resists relative sliding motion between touching physical surfaces."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which surface produces more friction: rough carpet or smooth tile?",
+        "a": "Rough carpet",
+        "exp": "Rough surfaces present larger microscopic bumps that catch against objects, generating higher friction."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What happens when you push a toy car harder?",
+        "a": "It moves faster or farther.",
+        "exp": "Applying greater force causes higher acceleration, producing greater speed and travel distance."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a rolling ball eventually stop?",
+        "a": "Friction slows it down.",
+        "exp": "Rolling friction between the ball and ground continuously removes kinetic energy until movement ceases."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a ball thrown upward fall back down?",
+        "a": "Gravity pulls it toward Earth.",
+        "exp": "Earth's gravitational pull continuously accelerates the ball downward, overriding upward momentum."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What can change an object's speed or direction?",
+        "a": "Force",
+        "exp": "An unbalanced net force alters an object's velocity, changing its speed, motion path, or both."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why do bicycles have brakes?",
+        "a": "Brakes use friction to slow down or stop the bicycle.",
+        "exp": "Brake pads press against spinning wheels, converting kinetic motion energy into friction heat to stop."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A plant receives plenty of water but is kept in complete darkness. What important process will be affected?",
+        "a": "Photosynthesis",
+        "exp": "Without light energy from the Sun, plant cells cannot execute photosynthesis to synthesize sugar."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student wants to know which type of soil is best for growing beans. What should the student do?",
+        "a": "Grow beans in different soils while keeping other conditions the same.",
+        "exp": "Fair scientific testing isolates a single variable (soil type) while holding all other factors constant."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A fish is taken out of water. Why does it have difficulty breathing?",
+        "a": "Its gills are adapted to obtain oxygen from water.",
+        "exp": "Gill membranes collapse in open air, preventing the gas exchange required to absorb atmospheric oxygen."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a duck's foot help it swim better than a chicken's foot?",
+        "a": "Its webbed feet push against water efficiently.",
+        "exp": "Flexible skin webbing between toes creates a broad surface area that pushes backward against water."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does an ice cube melt faster on a sunny table than inside a refrigerator?",
+        "a": "It receives more heat from its surroundings.",
+        "exp": "Higher ambient room temperatures and direct solar thermal energy transfer heat into the ice rapidly."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A toy car travels farther on a smooth floor than on carpet. What is the best explanation?",
+        "a": "There is less friction on the smooth floor.",
+        "exp": "Smooth floors present minimal surface resistance, preserving the car's forward momentum longer."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student observes that a plant near a window bends toward the window. What does this show?",
+        "a": "Plants respond to light.",
+        "exp": "This observation demonstrates phototropism, showing how plant growth responds dynamically to light direction."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "If bees disappeared from an area, what could happen to some flowering plants?",
+        "a": "Pollination and seed production could decrease.",
+        "exp": "Fewer insect pollinators reduce successful pollen transfers, lowering fruit and seed yield."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why should scientists repeat an experiment?",
+        "a": "To check whether the results are consistent.",
+        "exp": "Replicating trials ensures that observed experimental results are accurate, reliable, and free of accidental error."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student changes both the amount of water and sunlight given to plants. Why is this not a fair test of water?",
+        "a": "Two variables were changed at the same time.",
+        "exp": "Valid controlled experiments isolate one independent variable at a time to establish clear cause and effect."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which is stronger evidence?",
+        "a": "\"The plant grew from 10 cm to 15 cm.\"",
+        "exp": "Quantitative measurements supply exact, objective empirical evidence superior to vague descriptions."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why should scientific conclusions be based on observations and measurements?",
+        "a": "They provide evidence to support the conclusion.",
+        "exp": "Objective empirical data ensures scientific claims are grounded in fact rather than personal opinion."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A wet towel is spread out instead of folded. Why does it dry faster?",
+        "a": "More of its surface is exposed to air.",
+        "exp": "Expanding surface area allows water molecules across the towel to evaporate into surrounding air more quickly."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a metal spoon become hot when placed in hot soup?",
+        "a": "Heat travels through the metal.",
+        "exp": "Metals are good thermal conductors, allowing thermal energy to pass quickly through the material via conduction."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why does a shadow form when you stand between a lamp and a wall?",
+        "a": "Your body blocks the light.",
+        "exp": "Light travels in straight paths; opaque human bodies block light rays, leaving a dark shadow behind."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why can you see the Moon even though it does not produce its own light?",
+        "a": "It reflects sunlight.",
+        "exp": "The Moon's dusty surface reflects incoming sunlight toward Earth, making it visible in our sky."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why are decomposers important in an ecosystem?",
+        "a": "They break down dead organisms and return nutrients to the environment.",
+        "exp": "Decomposers recycle organic waste, transforming dead matter into rich soil nutrients needed by plants."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What could happen if all producers in an ecosystem disappeared?",
+        "a": "Many consumers would lose their main source of food and energy.",
+        "exp": "Producers form the foundation of food webs; their removal collapses energy supply across all consumer levels."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why should people conserve water?",
+        "a": "Freshwater is limited and necessary for living things.",
+        "exp": "Only a tiny fraction of Earth's water is usable freshwater, making conservation vital for life."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "What is one of the most important habits of a good young scientist?",
+        "a": "Being curious and using evidence to find answers.",
+        "exp": "Scientific progress relies on inquisitive questioning guided by careful observation and data collection."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student wants to find out whether sunlight affects plant growth. What should be the independent variable?",
+        "a": "Amount of sunlight",
+        "exp": "The independent variable is the specific factor intentionally changed or tested by the researcher."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "In the same experiment, what should be measured as the dependent variable?",
+        "a": "Plant growth",
+        "exp": "The dependent variable is the measurable outcome or response produced by changing the independent variable."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why should two plants in an experiment be given the same amount of water?",
+        "a": "To make the test fair.",
+        "exp": "Controlling background variables ensures that observed differences are caused solely by the variable being tested."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student predicts that heavier objects will fall faster than lighter objects. What should the student do next?",
+        "a": "Test the prediction with an experiment.",
+        "exp": "The scientific method requires gathering experimental evidence to test hypotheses."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A scientist repeats an experiment five times and gets similar results. What does this suggest?",
+        "a": "The results are reliable.",
+        "exp": "Repeatable, consistent experimental outcomes confirm the reliability and validity of conclusions."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Which is stronger evidence?",
+        "a": "A measurement",
+        "exp": "Exact quantitative measurements yield objective empirical facts that exceed qualitative guesses."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student records plant height every two days. What is the student collecting?",
+        "a": "Data",
+        "exp": "Systematically gathered facts, measurements, and observations collected during research form scientific data."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "Why should scientists record unexpected results instead of ignoring them?",
+        "a": "Unexpected results may provide important evidence.",
+        "exp": "Unanticipated data can reveal overlooked variables or spark breakthroughs in scientific understanding."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "A student changes the type of soil, amount of water, and amount of sunlight at the same time. What is the main problem?",
+        "a": "The experiment is not a fair test.",
+        "exp": "Altering multiple independent variables simultaneously obscures which specific factor caused the final result."
+    },
+    {
+        "part": "PART 3: MATTER, FORCE, MOTION, & SCIENTIFIC INVESTIGATION",
+        "q": "If two experiments produce different results, what should a scientist do first?",
+        "a": "Check the procedures and data for differences or errors.",
+        "exp": "Evaluating methodologies helps identify procedural errors, altered conditions, or measurement discrepancies."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What process breaks rocks into smaller pieces without necessarily moving them to another place?",
+        "a": "Weathering",
+        "exp": "Weathering breaks down parent rock through mechanical or chemical forces in place."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What process moves soil and rock particles from one place to another?",
+        "a": "Erosion",
+        "exp": "Erosion is the physical movement and transportation of weathered sediments by natural forces."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Which agent can cause erosion?",
+        "a": "All of them (Wind, Water, Ice)",
+        "exp": "Wind, flowing water, and moving glaciers all act as kinetic agents that transport surface sediment."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why can plant roots help prevent soil erosion?",
+        "a": "They hold soil in place.",
+        "exp": "Interlocking root networks bind soil particles together, shielding topsoil from wind and rain runoff."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why does a river often carry soil and small rocks downstream?",
+        "a": "Moving water can transport sediments.",
+        "exp": "Kinetic energy within moving river currents picks up suspended sediment and carries it along."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What do we call small pieces of rock, soil, and other material carried by water or wind?",
+        "a": "Sediments",
+        "exp": "Sediments are loose mineral or organic particles produced by weathering and moved by erosion."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What happens when sediments settle at the bottom of a river or lake?",
+        "a": "Deposition",
+        "exp": "Deposition occurs when transporting currents slow down enough to let suspended sediments drop."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Which landform can be formed by materials deposited by a river near its mouth?",
+        "a": "Delta",
+        "exp": "A delta forms as a river empties into a quiet body of water, depositing nutrient-rich sediment fan arrays."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why are steep bare slopes more vulnerable to erosion?",
+        "a": "There are fewer roots to hold the soil in place.",
+        "exp": "Slopes without vegetative cover lack root anchors, leaving loose soil fully exposed to water wash."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "A farmer plants grass on a slope. How can this help the land?",
+        "a": "The roots help reduce soil erosion.",
+        "exp": "Grass matting creates dense root systems that absorb rainwater runoff and bind topsoil securely."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What is molten rock beneath Earth's surface called?",
+        "a": "Magma",
+        "exp": "Magma is pressurized, extremely hot liquid and semi-liquid rock trapped under the crust."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What is molten rock called after it reaches Earth's surface?",
+        "a": "Lava",
+        "exp": "Once magma vents onto Earth's surface, it loses dissolved gases and becomes lava."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What opening allows lava, ash, and gases to escape from a volcano?",
+        "a": "Crater/Vent",
+        "exp": "A volcanic vent or crater is the central surface opening connecting underground magma chambers to the exterior."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What material from a volcano can fall from the sky as tiny particles?",
+        "a": "Volcanic ash",
+        "exp": "Volcanic ash consists of pulverized rock, glass fragments, and minerals blasted skyward during explosive eruptions."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why can volcanic ash be dangerous to breathe?",
+        "a": "It can irritate or damage the respiratory system.",
+        "exp": "Inhaled microscopic glass and mineral particles irritate lung tissue and cause severe breathing damage."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What is an earthquake?",
+        "a": "A sudden shaking of Earth's surface caused by movement within Earth.",
+        "exp": "Earthquakes occur when stress built along crustal faults releases suddenly as kinetic seismic waves."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What instrument records earthquake vibrations?",
+        "a": "Seismograph",
+        "exp": "A seismograph detects, measures, and charts ground motion produced by seismic waves."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What should you do during an earthquake if you are indoors?",
+        "a": "Drop, cover, and hold on.",
+        "exp": "Dropping under sturdy furniture protects your body from falling debris during active shaking."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why can earthquakes change the shape of the ground?",
+        "a": "Movement beneath Earth's surface can shift rocks and land.",
+        "exp": "Fault slippage vertically or horizontally shifts rock strata, causing ground ruptures and land shape changes."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why is it important to follow warnings from authorities during volcanic activity?",
+        "a": "They help people avoid dangerous areas and stay safe.",
+        "exp": "Official alerts provide timely evacuation directives to keep communities clear of lethal volcanic hazards."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What causes the apparent movement of the Sun across the sky each day?",
+        "a": "Earth's rotation on its axis",
+        "exp": "As Earth rotates eastward on its internal axis every 24 hours, celestial objects appear to move west across the sky."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What causes different seasons in many parts of Earth?",
+        "a": "Earth's tilted axis and its revolution around the Sun",
+        "exp": "Earth's 23.5° axial tilt causes varying intensity and duration of sunlight across different orbital positions."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why is it daytime on one side of Earth while it is nighttime on the other?",
+        "a": "Earth rotates, so different parts face toward or away from the Sun.",
+        "exp": "Earth's spherical shape means only the half turned toward the Sun receives direct light at any given moment."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why does the Moon appear to change shape during the month?",
+        "a": "We see different portions of its illuminated side as it orbits Earth.",
+        "exp": "As the Moon orbits Earth, our viewing angle of its sunlit side changes, creating monthly lunar phases."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What causes a lunar eclipse?",
+        "a": "Earth moves between the Sun and Moon, blocking sunlight from reaching the Moon.",
+        "exp": "A lunar eclipse happens when Earth passes directly between the Sun and Moon, casting Earth's shadow across the lunar surface."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What causes a solar eclipse?",
+        "a": "The Moon moves between the Sun and Earth and blocks some sunlight.",
+        "exp": "A solar eclipse occurs when the Moon orbits directly between Earth and the Sun, blocking solar light."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why should you never look directly at the Sun during an eclipse?",
+        "a": "Intense sunlight can damage the eyes.",
+        "exp": "Concentrated ultraviolet and infrared rays permanently damage sensitive retinal cells in unprotected eyes."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Which has greater gravity: Earth or the Moon?",
+        "a": "Earth",
+        "exp": "Earth possesses significantly more physical mass than the Moon, generating stronger gravitational pull."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why would a person weigh less on the Moon than on Earth?",
+        "a": "The Moon has weaker gravity.",
+        "exp": "Weight depends on gravitational pull; the Moon's lower mass exerts only one-sixth of Earth's gravity."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why do astronauts appear to float inside a spacecraft orbiting Earth?",
+        "a": "They are experiencing apparent weightlessness while orbiting Earth.",
+        "exp": "Astronauts and spacecraft fall around Earth at identical speeds in continuous microgravity free-fall."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What provides most of the energy that drives the water cycle?",
+        "a": "The Sun",
+        "exp": "Solar radiation heats surface waters across Earth, driving evaporation and powering the global water cycle."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What happens to water molecules during evaporation?",
+        "a": "They gain energy and escape into the air as water vapor.",
+        "exp": "Thermal energy increases kinetic movement, letting surface liquid water molecules break free into gas."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why does evaporation usually happen faster on a hot day?",
+        "a": "Heat gives water more energy to evaporate.",
+        "exp": "Higher ambient temperatures supply more heat energy, converting liquid water into vapor faster."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why does wind help wet clothes dry faster?",
+        "a": "Moving air removes water vapor near the clothes.",
+        "exp": "Air currents sweep away saturated humid air around wet clothing, maintaining rapid evaporation rates."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What happens when water vapor cools enough?",
+        "a": "It condenses into liquid water.",
+        "exp": "Cooling reduces gaseous kinetic energy, causing water vapor to condense back into liquid water drops."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What tiny particles can water vapor condense around in the atmosphere?",
+        "a": "Dust or other tiny particles",
+        "exp": "Microscopic dust, sea salt, or smoke act as condensation nuclei that attract cooling water vapor."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "What forms when many tiny water droplets gather in the atmosphere?",
+        "a": "Clouds",
+        "exp": "Millions of microscopic condensed water droplets or ice crystals suspended together form visible clouds."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why do clouds sometimes produce rain?",
+        "a": "Water droplets or ice particles become large and heavy enough to fall.",
+        "exp": "As cloud droplets collide and combine, they grow too heavy to remain suspended against gravity and fall."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "If evaporation stopped completely, which cycle would be greatly affected?",
+        "a": "Water cycle",
+        "exp": "Halting evaporation shuts off atmospheric water vapor resupply, bringing precipitation and the water cycle to a stop."
+    },
+    {
+        "part": "PART 4: EARTH SCIENCE, VOLCANOES, & ASTRONOMY",
+        "q": "Why does the water cycle help make freshwater available in many places?",
+        "a": "It continuously moves and redistributes water through Earth's systems.",
+        "exp": "Evaporation purifies salty water while atmospheric circulation transports clean freshwater across regions."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What must be present for electricity to flow continuously in a simple circuit?",
+        "a": "A complete circuit",
+        "exp": "Electric current requires an unbroken, closed conductive loop connecting positive and negative terminals."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when a switch in a circuit is opened?",
+        "a": "The circuit is broken and current stops flowing.",
+        "exp": "Opening a switch creates a physical gap, interrupting the conductive pathway and stopping electric flow."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when the switch is closed?",
+        "a": "The circuit is completed and current can flow.",
+        "exp": "Closing a switch seals the gap in the wiring, allowing electric current to flow."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why does a bulb not light when there is a break in the wire?",
+        "a": "The circuit is incomplete.",
+        "exp": "Gaps in wiring halt electron movement throughout an incomplete electrical loop."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What material is commonly used inside electrical wires because it conducts electricity well?",
+        "a": "Copper",
+        "exp": "Copper possesses low electrical resistance, making it an excellent conductor for carrying current."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why is plastic placed around many electrical wires?",
+        "a": "Plastic is an insulator that helps protect people from electric shock.",
+        "exp": "Non-conductive plastic shielding contains electrical currents, preventing accidental shock and short circuits."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Which is safer for handling electricity?",
+        "a": "Dry hands",
+        "exp": "Water lowers skin electrical resistance; handling electrical items with dry hands prevents shock hazards."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What energy transformation occurs in a working flashlight?",
+        "a": "Chemical energy -> electrical energy -> light energy",
+        "exp": "Battery chemical energy turns into flowing electrical energy, which the bulb converts into light."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why does a battery eventually stop powering a device?",
+        "a": "Its stored chemical energy becomes depleted.",
+        "exp": "Internal chemical reactants get used up over time until electrical current can no longer be generated."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why should damaged electrical cords not be used?",
+        "a": "They can cause electric shock or fire.",
+        "exp": "Exposed copper wiring increases risk of dangerous short circuits, electrical fires, or direct electrocution."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when two like magnetic poles are brought together?",
+        "a": "They repel.",
+        "exp": "Identical magnetic poles (North-North or South-South) exert repulsive magnetic forces pushing each other away."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when opposite magnetic poles are brought together?",
+        "a": "They attract.",
+        "exp": "Unlike magnetic poles (North-South) draw together through strong attractive forces."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Where is the magnetic force of a bar magnet generally strongest?",
+        "a": "At its poles",
+        "exp": "Magnetic flux lines concentrate heavily at the north and south magnetic poles."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Can magnetic force act without direct contact?",
+        "a": "Yes",
+        "exp": "Magnetism is a non-contact force operating across distances through an invisible magnetic field."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "A magnet attracts a paper clip through a sheet of paper. What does this demonstrate?",
+        "a": "Magnetic force can act through some materials.",
+        "exp": "Magnetic fields penetrate non-magnetic barrier materials like paper without losing force."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why doesn't a magnet attract every metal?",
+        "a": "Only certain materials are strongly magnetic.",
+        "exp": "Only ferromagnetic metals containing iron, nickel, or cobalt respond to magnetic fields."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Which is more likely to be attracted to a magnet?",
+        "a": "Steel nail",
+        "exp": "Steel contains ferromagnetic iron, making it strongly attracted to magnets."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens if you cut a bar magnet in half?",
+        "a": "Each piece becomes a smaller magnet with two poles.",
+        "exp": "Dividing a magnet re-aligns internal magnetic domains, forming north and south poles on each piece."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What invisible area around a magnet contains magnetic effects?",
+        "a": "Magnetic field",
+        "exp": "The magnetic field is the surrounding spatial region where magnetic forces exert measurable influence."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why are magnets useful in some compasses?",
+        "a": "Magnetized needles respond to Earth's magnetic field.",
+        "exp": "A freely suspended magnetic compass needle aligns along Earth's natural magnetic north-south poles."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when a metal spoon is placed in hot soup for several minutes?",
+        "a": "Heat travels from the soup through the spoon.",
+        "exp": "Heat transfers via conduction from the warm soup up through the conductive metal handle."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What type of heat transfer occurs through direct contact?",
+        "a": "Conduction",
+        "exp": "Conduction transfers heat between colliding adjacent molecules in direct physical contact."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why does a metal spoon conduct heat better than a wooden spoon?",
+        "a": "Metal is a better conductor of heat.",
+        "exp": "Metals possess tightly packed atomic structures that transfer heat vibrations far faster than wood."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why are oven mitts made from materials that do not easily conduct heat?",
+        "a": "To protect hands from heat.",
+        "exp": "Insulating materials slow down thermal heat transfer, preventing skin burns during baking."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "What happens when you hold an ice cube in your hand?",
+        "a": "Heat moves from your warmer hand to the colder ice.",
+        "exp": "Thermal energy flows from areas of higher temperature (your hand) toward colder areas (the ice)."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why does a cold drink become warmer when left in a warm room?",
+        "a": "Heat moves from the warmer surroundings to the colder drink.",
+        "exp": "Thermal energy transfers from warm room air into the cold liquid until thermal balance is reached."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Does heat naturally move from cold objects to hot objects?",
+        "a": "No, heat moves from hot to cold objects.",
+        "exp": "Heat energy naturally flows down thermal gradients, moving from warmer areas to colder ones."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Which absorbs heat faster?",
+        "a": "A dark surface",
+        "exp": "Dark-colored objects absorb visible light energy across wavelengths, converting it quickly into thermal heat."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why do people often wear light-colored clothes in very hot weather?",
+        "a": "Light colors generally reflect more sunlight.",
+        "exp": "Light fabrics reflect solar radiation away from the body, absorbing less heat."
+    },
+    {
+        "part": "PART 5: ELECTRICITY, MAGNETISM, HEAT, & LIGHT",
+        "q": "Why does a metal playground slide become very hot under direct sunlight?",
+        "a": "It absorbs radiant energy from the Sun.",
+        "exp": "Metals absorb radiant solar heat quickly and store thermal energy, making the surface hot."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is an ecosystem?",
+        "a": "Community of living things interacting with one another and their environment.",
+        "exp": "An ecosystem encompasses dynamic interactions between biotic organisms and abiotic components."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is a population?",
+        "a": "Members of the same species living in the same area.",
+        "exp": "A population comprises individuals of one specific species inhabiting a designated area together."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is a community?",
+        "a": "Different populations living and interacting in the same area.",
+        "exp": "An ecological community features multiple interacting populations of varying species."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is a producer?",
+        "a": "Organism that makes its own food.",
+        "exp": "Producers (autotrophs) turn abiotic energy like sunlight into organic nutrients."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is a consumer?",
+        "a": "Organism that gets energy by eating other organisms.",
+        "exp": "Consumers (heterotrophs) obtain metabolic energy by eating other organisms."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is a decomposer?",
+        "a": "Organism that breaks down dead matter.",
+        "exp": "Decomposers process dead matter and biological waste, returning nutrients back into the soil."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "In the food chain grass -> grasshopper -> frog -> snake, what is the producer?",
+        "a": "Grass",
+        "exp": "Grass manufactures its own nutrients via photosynthesis, occupying the primary producer level."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "In the same food chain, what is the primary consumer?",
+        "a": "Grasshopper",
+        "exp": "Grasshoppers eat producers directly, making them primary herbivorous consumers."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "If the number of grasshoppers suddenly decreases greatly, what might happen to frogs?",
+        "a": "Frog population may decrease because there is less food.",
+        "exp": "Dropping herbivore prey numbers starves secondary consumers, causing their population to drop."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "If many frogs disappear, what could happen to the grasshopper population?",
+        "a": "It may increase because fewer frogs are eating them.",
+        "exp": "Removing secondary predators lowers mortality rates among prey populations, allowing numbers to rise."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What does an arrow in a food chain usually show?",
+        "a": "Direction of energy transfer",
+        "exp": "Arrows point toward the organism doing the eating, showing the path of energy transfer."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "In grass -> rabbit -> eagle, where does the rabbit get its energy?",
+        "a": "Grass",
+        "exp": "Rabbits obtain energy by consuming primary producer grass."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "Where does the grass ultimately get its energy?",
+        "a": "Sunlight",
+        "exp": "Solar radiation supplies the foundational energy that plants capture during photosynthesis."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "Why does a food chain usually begin with a producer?",
+        "a": "Producers introduce energy into the food chain by making food.",
+        "exp": "Autotrophic producers convert light energy into chemical nutrients, powering higher trophic levels."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What happens to available energy as you move higher in a food chain?",
+        "a": "Less energy is available at higher levels.",
+        "exp": "Energy is lost as thermal heat at each level, leaving less usable energy for higher consumers."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What is the smallest basic unit of life?",
+        "a": "Cell",
+        "exp": "Cells represent the foundational structural and functional units across all living organisms."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What do we call organisms made up of many cells?",
+        "a": "Multicellular organisms",
+        "exp": "Organisms made of multiple specialized cooperating cells are multicellular."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "What structure controls many activities inside a cell?",
+        "a": "Nucleus",
+        "exp": "The nucleus houses cellular DNA, directing gene expression and cell operations."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "Which structure in plant cells captures sunlight?",
+        "a": "Chloroplast",
+        "exp": "Chloroplasts contain chlorophyll pigments that convert light energy into glucose."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "Which tissue transports water from roots toward the leaves?",
+        "a": "Xylem",
+        "exp": "Xylem vessels form continuous tubes transporting soil water upwards throughout the plant."
+    },
+    {
+        "part": "PART 6: ADVANCED ECOSYSTEMS, CELLS, & COMPREHENSIVE REASONING",
+        "q": "Which tissue transports food made by the leaves?",
+        "a": "Phloem",
+        "exp": "Phloem tissues distribute photosynthetic sugars from leaves out to growing plant parts."
+    }
+];
+
+function renderContent() {
+    const container = document.getElementById('reviewerContent');
+    let currentPart = "";
+
+    qaData.forEach((item, index) => {
+        if (item.part !== currentPart) {
+            currentPart = item.part;
+            const partEl = document.createElement('h2');
+            partEl.className = 'part-header';
+            partEl.innerText = currentPart;
+            container.appendChild(partEl);
+        }
+
+        const card = document.createElement('div');
+        card.className = 'qa-card';
+        card.innerHTML = `
+            <div class="q-number">Question ${index + 1}</div>
+            <div class="question">Q: ${item.q}</div>
+            <div class="answer">A: ${item.a}</div>
+            <div class="explanation">
+                <div class="explanation-title">Explanation</div>
+                ${item.exp}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function filterCards() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.qa-card');
+    
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+
+    const partHeaders = document.querySelectorAll('.part-header');
+    partHeaders.forEach(header => {
+        let nextEl = header.nextElementSibling;
+        let hasVisible = false;
+        while (nextEl && !nextEl.classList.contains('part-header')) {
+            if (nextEl.classList.contains('qa-card') && !nextEl.classList.contains('hidden')) {
+                hasVisible = true;
+                break;
+            }
+            nextEl = nextEl.nextElementSibling;
+        }
+        if (hasVisible || query === "") {
+            header.classList.remove('hidden');
+        } else {
+            header.classList.add('hidden');
+        }
+    });
+}
+
+function toggleAnswers() {
+    const answers = document.querySelectorAll('.answer');
+    answers.forEach(a => a.classList.toggle('hidden'));
+}
+
+function toggleExplanations() {
+    const explanations = document.querySelectorAll('.explanation');
+    explanations.forEach(e => e.classList.toggle('hidden'));
+}
+
+function toggleTheme() {
+    const currentTheme = document.body.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.body.removeAttribute('data-theme');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+}
+
+window.onload = renderContent;
+</script>
+
+</body>
+</html>
